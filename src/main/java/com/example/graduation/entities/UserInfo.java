@@ -12,6 +12,7 @@ public class UserInfo {
     @Id
     private String id;
 
+    private Long gameId;
     private String userName;
     private Integer infoEasy;
     private Integer infoMedium;
@@ -22,7 +23,8 @@ public class UserInfo {
 
     private String idTeacher;
 
-    public UserInfo(String userName, Integer infoEasy, Integer infoMedium, Integer infoHard, boolean bossLevel, Integer bossMax, String idTeacher) {
+    public UserInfo(Long gameId, String userName, Integer infoEasy, Integer infoMedium, Integer infoHard, boolean bossLevel, Integer bossMax, String idTeacher) {
+        this.gameId = gameId;
         this.userName = userName;
         this.infoEasy = infoEasy;
         this.infoMedium = infoMedium;

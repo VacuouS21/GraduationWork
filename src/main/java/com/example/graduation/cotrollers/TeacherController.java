@@ -1,35 +1,51 @@
 package com.example.graduation.cotrollers;
 
-import com.example.graduation.dao.Dao;
 import com.example.graduation.entities.Teacher;
+import com.example.graduation.entities.UserInfo;
+import com.example.graduation.model.TeacherUpdateRequesModel;
+import com.example.graduation.model.UserUpdateRequesModel;
+import com.example.graduation.services.TeacherService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
 
-public class TeacherController implements Dao<Teacher> {
-    @Override
-    public Optional get(long id) {
-        return Optional.empty();
+@RestController
+@RequestMapping("/")
+public class TeacherController {
+@Autowired
+TeacherService service;
+    @PostMapping("/teacher")
+    public Teacher createTeacher(@RequestBody Teacher teacher){
+        return service.save(teacher);
     }
 
-    @Override
-    public List getAll() {
-        return null;
-    }
-
-    @Override
-    public void save(Teacher teacher) {
+    @GetMapping("/teacher")
+    List<Teacher> getTeachers(){
+        return service.getAll();
 
     }
-
-    @Override
-    public void update(Teacher teacher, String[] params) {
-
+    @GetMapping("/teacher/{id}")
+    Teacher getTeacherFromId(@PathVariable String id){
+        return service.getId(id);
     }
 
-    @Override
-    public void delete(Teacher teacher) {
-
+    @PutMapping("/teacher/{id}")
+    public Teacher updateTeacher(@PathVariable String id, @Valid @RequestBody TeacherUpdateRequesModel teacherUpdateRequesModel) throws UnsupportedEncodingException {
+        Teacher teacher=service.update(id,teacherUpdateRequesModel);
+        return teacher;
     }
-    
+
+    @DeleteMapping("/teacher/{id}")
+    public Teacher deleteTeacher(@PathVariable String id){
+        Teacher status=service.delete(id);
+        return status;
+    }
+/*    @GetMapping("/name/{name}")
+    public String getId(@PathVariable String name){
+        Teacher teacher=service.findByName(name);
+        return teacher.getId();
+    }*/
 }
