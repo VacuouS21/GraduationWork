@@ -1,36 +1,45 @@
 package com.example.graduation.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.List;
 
-
+@Entity
 @Data
-@Document
+@Table(name="users", schema="public")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserInfo {
-    @Id
-    private String id;
 
-    private Long gameId;
-    private String userName;
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name= "increment", strategy= "increment")
+    private Long id;
+    @Column(name="name")
+    private String name;
+
+    @Column(name="password")
+    private String password;
+
+    @Column(name="easy_level")
     private Integer infoEasy;
+
+    @Column(name="medium_level")
     private Integer infoMedium;
+
+    @Column(name="hard_level")
     private Integer infoHard;
 
+    @Column(name="boss_level")
     private boolean bossLevel;
+
+    @Column(name="record_boss")
     private Integer bossMax;
 
-    private String idTeacher;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "teacher")
+    private Teacher teacher;
 
-    public UserInfo(Long gameId, String userName, Integer infoEasy, Integer infoMedium, Integer infoHard, boolean bossLevel, Integer bossMax, String idTeacher) {
-        this.gameId = gameId;
-        this.userName = userName;
-        this.infoEasy = infoEasy;
-        this.infoMedium = infoMedium;
-        this.infoHard = infoHard;
-        this.bossLevel = bossLevel;
-        this.bossMax = bossMax;
-        this.idTeacher = idTeacher;
-    }
 }

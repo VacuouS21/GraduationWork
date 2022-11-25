@@ -1,23 +1,34 @@
 package com.example.graduation.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
 
+@Entity
 @Data
-@Document
+@Table(name="teacher", schema="public")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Teacher {
 
     @Id
-    private String id;
-    private String nameOfTeacher;
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name= "increment", strategy= "increment")
+    private Long id;
 
-    public Teacher(String nameOfTeacher) {
-        this.nameOfTeacher = nameOfTeacher;
-    }
+    @Column(name="name")
+    private String name;
+
+    @Column(name="login")
+    private String login;
+
+    @Column(name="password")
+    private String password;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "teacher")
+    private List<UserInfo> students;
 }
