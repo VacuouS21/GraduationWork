@@ -1,73 +1,66 @@
 package com.example.graduation.cotrollers;
 
-
 import com.example.graduation.entities.UserInfo;
-import com.example.graduation.model.UserUpdateRequesModel;
-import com.example.graduation.services.UserInfoService;
-import jakarta.validation.Valid;
+import com.example.graduation.model.UserDTO;
+import com.example.graduation.services.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+
 @RestController
 @RequestMapping("/")
 public class UserInfoController  {
-@Autowired
-UserInfoService service;
+
+    @Autowired
+    ServiceUser userService;
+
     @PostMapping("/user")
-    public UserInfo createUser(@RequestBody UserInfo user){
-        return service.save(user);
+    public UserInfo createUser(@RequestBody UserDTO user){
+        return userService.save(user);
     }
 
     @GetMapping("/user")
     List<UserInfo> getUsers(){
-        return service.getAll();
+        return userService.getAll();
 
     }
     @GetMapping("/user/{id}")
-    UserInfo getUserFromId(@PathVariable String id){
-        return service.get(id);
-    }
-
-    @GetMapping("/game/{id}")
-    UserInfo getUserFromGameId(@PathVariable Long id){
-        return service.getGameId(id);
+    UserInfo getUserFromId(@PathVariable Long id){
+        return userService.getFromId(id);
     }
 
     @PutMapping("/user/{id}")
-    public UserInfo updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequesModel userUpdateRequesModel) throws UnsupportedEncodingException {
-        UserInfo user=service.update(id,userUpdateRequesModel);
-        return user;
+    public UserInfo updateUser(@PathVariable("id") UserInfo userFromDb, @Valid @RequestBody UserDTO user) throws UnsupportedEncodingException {
+        UserInfo newUser=userService.update(userFromDb,user);
+        return newUser;
     }
-    @PutMapping("/easy/{id}")
-    public UserInfo updateEasyLevel(@PathVariable Long id,@RequestBody int ball){
-        return null;
-    }
-    @PutMapping("/medium/{id}")
-    public UserInfo updateMediumLevel(@PathVariable Long id,@RequestBody int ball){
-        return null;
-    }
-    @PutMapping("/hard/{id}")
-    public UserInfo updateHardLevel(@PathVariable Long id,@RequestBody int ball){
-        return null;
-    }
-    @PutMapping("/boss/{id}")
-    public UserInfo updateBossLevel(){
-        return null;
-    }
+
     @DeleteMapping("/user/{id}")
-    public UserInfo deleteUser(@PathVariable String id){
-        UserInfo status=service.delete(id);
+    public UserInfo deleteUser(@PathVariable Long id){
+        UserInfo status=userService.delete(id);
         return status;
     }
 
-    @GetMapping("/test/{name}")
-    public String test(@PathVariable String name){
+    //Для получения лучших 20 учеников по всем ученикам
+    @GetMapping("/user/best")
+    public List<UserInfo> getBestUsers(@PathVariable Long id){
+
+        return null;
+    }
+
+    //Для получения всех учеников учителя
+    @GetMapping("/user/teacher/{id}")
+    public List<UserInfo> getAllUsersOfTeachers(@PathVariable Long idTeacher){
+
+        return null;
+    }
+
+    @GetMapping("/user/teacher/best/{id}")
+    public List<UserInfo> getBestUserOfTeacher(@PathVariable Long id){
+
         return null;
     }
 }

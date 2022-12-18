@@ -1,25 +1,29 @@
 package com.example.graduation.cotrollers;
 
 import com.example.graduation.entities.Teacher;
-import com.example.graduation.entities.UserInfo;
-import com.example.graduation.model.TeacherUpdateRequesModel;
-import com.example.graduation.model.UserUpdateRequesModel;
-import com.example.graduation.services.TeacherService;
-import jakarta.validation.Valid;
+import com.example.graduation.model.TeacherDTO;
+import com.example.graduation.model.TeacherUpdate;
+import com.example.graduation.services.ServiceTeacher;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
+import javax.validation.Valid;
 import java.util.List;
 
+/**
+*Контроллер для учителей
+ */
 @RestController
 @RequestMapping("/")
 public class TeacherController {
+
 @Autowired
-TeacherService service;
+ServiceTeacher service;
+
     @PostMapping("/teacher")
-    public Teacher createTeacher(@RequestBody Teacher teacher){
-        return service.save(teacher);
+    public Teacher createTeacher(@RequestBody TeacherUpdate teacher){
+        return null;
     }
 
     @GetMapping("/teacher")
@@ -28,24 +32,25 @@ TeacherService service;
 
     }
     @GetMapping("/teacher/{id}")
-    Teacher getTeacherFromId(@PathVariable String id){
-        return service.getId(id);
+    Teacher getTeacherFromId(@PathVariable Long id){
+        return service.getFromId(id);
     }
 
     @PutMapping("/teacher/{id}")
-    public Teacher updateTeacher(@PathVariable String id, @Valid @RequestBody TeacherUpdateRequesModel teacherUpdateRequesModel) throws UnsupportedEncodingException {
-        Teacher teacher=service.update(id,teacherUpdateRequesModel);
-        return teacher;
+    public Teacher updateTeacher(@PathVariable("id") Teacher teacherFromDb, @Valid @RequestBody TeacherDTO teacher){
+        Teacher newTeacher=service.update(teacherFromDb,teacher);
+        return newTeacher;
     }
 
     @DeleteMapping("/teacher/{id}")
-    public Teacher deleteTeacher(@PathVariable String id){
+    public Teacher deleteTeacher(@PathVariable Long id){
         Teacher status=service.delete(id);
         return status;
     }
-/*    @GetMapping("/name/{name}")
-    public String getId(@PathVariable String name){
-        Teacher teacher=service.findByName(name);
-        return teacher.getId();
-    }*/
+
+    @GetMapping("/teacher/filtred/{id}")
+    public List<Teacher> getBestTeachers(@PathVariable Long id){
+
+        return null;
+    }
 }

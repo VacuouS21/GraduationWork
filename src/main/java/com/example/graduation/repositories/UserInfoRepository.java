@@ -7,7 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
-
-    Optional<UserInfo> findByGameId(Long gameID);
-    List<UserInfo> findAllByIdTeacher(String teacherId);
+ List<UserInfo> findAllByTeacherName(String name);
 }

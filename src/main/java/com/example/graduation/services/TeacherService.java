@@ -1,52 +1,55 @@
 package com.example.graduation.services;
 
 import com.example.graduation.entities.Teacher;
-import com.example.graduation.model.TeacherUpdateRequesModel;
+import com.example.graduation.exception.ResouceNotFoundException;
+import com.example.graduation.model.TeacherDTO;
 import com.example.graduation.repositories.TeacherRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TeacherService implements DAOTeacher {
+public class TeacherService implements ServiceTeacher {
+
     @Autowired
     TeacherRepository repository;
-
+    @Autowired
+    UserInfoService userService;
 
     @Override
-    public List<Teacher> getAll() {
+    public Teacher getFromId(Long id)
+    {
+        return repository.findById(id).orElseThrow(
+                ()-> new ResouceNotFoundException("Teacher from database with " + id));
+    }
+
+    @Override
+    public List<Teacher> getAll(){
         return repository.findAll();
     }
 
     @Override
-    public Teacher getId(String id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
     public Teacher save(Teacher teacher) {
-        Teacher teacherNew=repository.save(teacher);
-        return teacherNew;
+        return repository.save(teacher);
+
     }
 
     @Override
-    public Teacher update(String id, TeacherUpdateRequesModel teacherUpdateRequesModel) {
-        Teacher teacher= repository.findById(id).orElseThrow();
-        teacher.setNameOfTeacher(teacherUpdateRequesModel.getNameOfTeacher());
-        repository.save(teacher);
+    public Teacher update(Teacher teacherFromDb,TeacherDTO teacher) {
+        teacherFromDb.setLogin(teacher.getLogin());
+        teacherFromDb.setName(teacher.getName());
+        teacherFromDb.setPassword(teacher.getPassword());
+        return teacherFromDb;
+    }
+
+    @Override
+    public Teacher delete(Long id) {
+        Teacher teacher=repository.findById(id).orElseThrow(()-> new ResouceNotFoundException("Teacher from database with " + id));
+        repository.deleteById(id);
         return teacher;
     }
 
-    @Override
-    public Teacher delete(String id) {
-        Teacher teacher=repository.findById(id).orElse(null);
-        if(teacher!=null) repository.deleteById(id);
-        return teacher;
-    }
 
-    @Override
-    public Teacher findByName(String name){
-        return null;
-    }
 }

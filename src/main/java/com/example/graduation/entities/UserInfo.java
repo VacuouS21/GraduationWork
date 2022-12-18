@@ -1,14 +1,18 @@
 package com.example.graduation.entities;
 
-import com.fasterxml.jackson.annotation.*;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString(exclude = "teahcer")
 @Table(name="users", schema="public")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserInfo {
@@ -17,6 +21,7 @@ public class UserInfo {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
     private Long id;
+
     @Column(name="name")
     private String name;
 

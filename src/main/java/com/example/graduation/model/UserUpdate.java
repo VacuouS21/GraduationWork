@@ -1,19 +1,14 @@
-package com.example.graduation.dto;
+package com.example.graduation.model;
 
 import lombok.Data;
 
 @Data
-public class UserFromGame {
-    private String id;
-
-    private Long gameId;
-    private String userName;
+public class UserUpdate {
+    private String username;
     private Integer infoEasy;
     private Integer infoMedium;
     private Integer infoHard;
-
     private boolean bossLevel;
     private Integer bossMax;
-
-    private String nameOfTeacher;
+    private String teacher;
 }

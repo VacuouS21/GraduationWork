@@ -1,7 +1,11 @@
 package com.example.graduation.services;
 
+import com.example.graduation.entities.Teacher;
 import com.example.graduation.entities.UserInfo;
-import com.example.graduation.model.UserUpdateRequesModel;
+import com.example.graduation.exception.ResouceNotFoundException;
+import com.example.graduation.model.TeacherDTO;
+import com.example.graduation.model.UserDTO;
+import com.example.graduation.repositories.TeacherRepository;
 import com.example.graduation.repositories.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,51 +13,68 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserInfoService implements DAOUserInfo {
-    @Autowired
-    UserInfoRepository repository;
+public class UserInfoService implements ServiceUser {
 
+    @Autowired
+    UserInfoRepository userRepository;
+
+    @Autowired
+    TeacherRepository teacherRepository;
 
     @Override
-    public UserInfo get(String id) {
-        return repository.findById(id).orElse(null);
-    }
-   @Override
-    public UserInfo getGameId(Long id) {
-        return repository.findByGameId(id).orElse(null);
+    public UserInfo save(UserDTO user) {
+        UserInfo newUser= new UserInfo();
+        newUser.setId(user.getId());
+        return mappingUpdate(newUser,user);
     }
 
     @Override
     public List<UserInfo> getAll() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
-    public UserInfo save(UserInfo userNew) {
-        UserInfo user= repository.save(userNew);;
-        return user;
+    public UserInfo getFromId(Long id) {
+        return userRepository.findById(id).orElseThrow( ()-> new ResouceNotFoundException("User from database with " + id));
     }
 
     @Override
-    public UserInfo update(Long id, UserUpdateRequesModel userUpdateRequesModel) {
-
-        UserInfo user= repository.findByGameId(id).orElseThrow();
-        user.setUserName(userUpdateRequesModel.getUserName());
-        user.setInfoEasy(userUpdateRequesModel.getInfoEasy());
-        user.setInfoMedium(userUpdateRequesModel.getInfoMedium());
-        user.setInfoHard(userUpdateRequesModel.getInfoHard());
-        user.setBossLevel(userUpdateRequesModel.isBossLevel());
-        user.setBossMax(userUpdateRequesModel.getBossMax());
-        user.setIdTeacher(userUpdateRequesModel.getIdTeacher());
-        repository.save(user);
+    public UserInfo delete(Long id) {
+        UserInfo user=userRepository.findById(id).orElseThrow(()-> new ResouceNotFoundException("User from database with " + id));
+        userRepository.deleteById(id);
         return user;
 
     }
 
     @Override
-    public UserInfo delete(String id) {
-        UserInfo userDel = repository.findById(id).orElse(null);
-        if(userDel!=null) repository.deleteById(id);
-        return userDel;
+    public UserInfo update(UserInfo userFromDb, UserDTO user) {
+        return mappingUpdate(userFromDb,user);
+    }
+
+    @Override
+    public List<UserInfo> getAllUsersOfTeacher(String teacherName) {
+        return userRepository.findAllByTeacherName(teacherName);
+    }
+
+    @Override
+    public List<UserInfo> getBestTeachers() {
+        return null;
+    }
+
+    @Override
+    public List<UserInfo> getBestUsers() {
+        return null;
+    }
+
+    private UserInfo mappingUpdate(UserInfo userFromDb, UserDTO user){
+        userFromDb.setName(user.getUsername());
+        userFromDb.setPassword(user.getPassword());
+        userFromDb.setInfoEasy(user.getInfoEasy());
+        userFromDb.setInfoMedium(user.getInfoMedium());
+        userFromDb.setInfoHard(user.getInfoHard());
+        userFromDb.setBossLevel(user.isBossLevel());
+        userFromDb.setBossMax(user.getBossMax());
+        userFromDb.setTeacher(teacherRepository.findById(user.getTeacher()).orElseThrow(()-> new ResouceNotFoundException("Teacher from database with " + user.getTeacher())));
+        return userFromDb;
     }
 }

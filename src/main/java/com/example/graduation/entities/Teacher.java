@@ -2,6 +2,8 @@ package com.example.graduation.entities;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,7 +11,8 @@ import java.util.List;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name="teacher", schema="public")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Teacher {
