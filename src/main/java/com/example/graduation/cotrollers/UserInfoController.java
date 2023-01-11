@@ -32,6 +32,10 @@ public class UserInfoController  {
         return userService.getFromId(id);
     }
 
+    @GetMapping("/user/name/{name}")
+    UserDTO geUserFromName(@PathVariable String name){
+        return userService.getUserFromName(name);
+    }
     @PutMapping("/user/{id}")
     public UserInfo updateUser(@PathVariable("id") UserInfo userFromDb, @Valid @RequestBody UserDTO user) throws UnsupportedEncodingException {
         UserInfo newUser=userService.update(userFromDb,user);
@@ -43,6 +47,7 @@ public class UserInfoController  {
         UserInfo status=userService.delete(id);
         return status;
     }
+
 
     //Для получения лучших 20 учеников по всем ученикам
     @GetMapping("/user/best")

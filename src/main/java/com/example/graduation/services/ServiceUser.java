@@ -14,4 +14,6 @@ public interface ServiceUser {
     List<UserInfo> getAllUsersOfTeacher(String teacherName);
     List<UserInfo> getBestTeachers();
     List<UserInfo> getBestUsers();
+
+    UserDTO getUserFromName(String name);
 }

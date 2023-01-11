@@ -66,6 +66,11 @@ public class UserInfoService implements ServiceUser {
         return null;
     }
 
+    @Override
+    public UserDTO getUserFromName(String name) {
+        return mappingForDTO(userRepository.findByName(name));
+    }
+
     private UserInfo mappingUpdate(UserInfo userFromDb, UserDTO user){
         userFromDb.setName(user.getUsername());
         userFromDb.setPassword(user.getPassword());
@@ -76,5 +81,17 @@ public class UserInfoService implements ServiceUser {
         userFromDb.setBossMax(user.getBossMax());
         userFromDb.setTeacher(teacherRepository.findById(user.getTeacher()).orElseThrow(()-> new ResouceNotFoundException("Teacher from database with " + user.getTeacher())));
         return userFromDb;
+    }
+    private UserDTO mappingForDTO(UserInfo userFromDB){
+        UserDTO user = new UserDTO(userFromDB.getId(),
+                userFromDB.getName(),
+                userFromDB.getPassword(),
+                userFromDB.getInfoEasy(),
+                userFromDB.getInfoMedium(),
+                userFromDB.getInfoHard(),
+                userFromDB.isBossLevel(),
+                userFromDB.getBossMax(),
+                userFromDB.getTeacher().getId());
+        return  user;
     }
 }
