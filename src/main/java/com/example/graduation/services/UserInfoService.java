@@ -48,7 +48,9 @@ public class UserInfoService implements ServiceUser {
 
     @Override
     public UserInfo update(UserInfo userFromDb, UserDTO user) {
-        return mappingUpdate(userFromDb,user);
+        UserInfo newUser= mappingUpdate(userFromDb,user);
+        userRepository.save(newUser);
+        return newUser;
     }
 
     @Override
@@ -69,6 +71,10 @@ public class UserInfoService implements ServiceUser {
     @Override
     public UserDTO getUserFromName(String name) {
         return mappingForDTO(userRepository.findByName(name));
+    }
+
+    @Override
+    public void updateUserFromName(String name) {
     }
 
     private UserInfo mappingUpdate(UserInfo userFromDb, UserDTO user){

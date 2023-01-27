@@ -16,4 +16,6 @@ public interface ServiceUser {
     List<UserInfo> getBestUsers();
 
     UserDTO getUserFromName(String name);
+
+    void updateUserFromName(String name);
 }

@@ -36,6 +36,13 @@ public class UserInfoController  {
     UserDTO geUserFromName(@PathVariable String name){
         return userService.getUserFromName(name);
     }
+    @PutMapping("/user/name/{name}")
+    public UserInfo updateUserFromName(@PathVariable("name") String name, @Valid @RequestBody UserDTO user){
+        UserDTO userDto=userService.getUserFromName(name);
+        UserInfo userFromDb=userService.getFromId(userDto.getId());
+        UserInfo newUser=userService.update(userFromDb,user);
+        return newUser;
+    }
     @PutMapping("/user/{id}")
     public UserInfo updateUser(@PathVariable("id") UserInfo userFromDb, @Valid @RequestBody UserDTO user) throws UnsupportedEncodingException {
         UserInfo newUser=userService.update(userFromDb,user);
