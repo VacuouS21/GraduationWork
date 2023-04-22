@@ -5,7 +5,7 @@
 
     <groupId>com.example</groupId>
     <artifactId>Graduation</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>release</version>
     <packaging>jar</packaging>
     <name>Graduation Work</name>
     <description>Graduation Work</description>

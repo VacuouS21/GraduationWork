@@ -2,7 +2,7 @@ package com.example.graduation.cotrollers;
 
 import com.example.graduation.entities.UserInfo;
 import com.example.graduation.model.UserDTO;
-import com.example.graduation.services.ServiceUser;
+import com.example.graduation.services.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class UserInfoController  {
 
     @Autowired
-    ServiceUser userService;
+    UserInfoService userService;
 
     @PostMapping("/user")
     public UserInfo createUser(@RequestBody UserDTO user){
@@ -23,8 +23,8 @@ public class UserInfoController  {
     }
 
     @GetMapping("/user")
-    List<UserInfo> getUsers(){
-        return userService.getAll();
+    List<UserInfo> getUsers(UserDTO userSearchCriteria){
+        return userService.getAll(userSearchCriteria);
 
     }
     @GetMapping("/user/{id}")

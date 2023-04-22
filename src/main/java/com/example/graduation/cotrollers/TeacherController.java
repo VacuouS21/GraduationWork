@@ -3,8 +3,7 @@ package com.example.graduation.cotrollers;
 import com.example.graduation.entities.Teacher;
 import com.example.graduation.model.TeacherDTO;
 import com.example.graduation.model.TeacherUpdate;
-import com.example.graduation.services.ServiceTeacher;
-
+import com.example.graduation.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ import java.util.List;
 public class TeacherController {
 
 @Autowired
-ServiceTeacher service;
+TeacherService service;
 
     @PostMapping("/teacher")
     public Teacher createTeacher(@RequestBody TeacherUpdate teacher){

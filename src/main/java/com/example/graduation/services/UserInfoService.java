@@ -1,19 +1,18 @@
 package com.example.graduation.services;
 
-import com.example.graduation.entities.Teacher;
 import com.example.graduation.entities.UserInfo;
 import com.example.graduation.exception.ResouceNotFoundException;
-import com.example.graduation.model.TeacherDTO;
 import com.example.graduation.model.UserDTO;
 import com.example.graduation.repositories.TeacherRepository;
 import com.example.graduation.repositories.UserInfoRepository;
+import com.example.graduation.utils.UserCriteriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserInfoService implements ServiceUser {
+public class UserInfoService {
 
     @Autowired
     UserInfoRepository userRepository;
@@ -21,24 +20,24 @@ public class UserInfoService implements ServiceUser {
     @Autowired
     TeacherRepository teacherRepository;
 
-    @Override
+    @Autowired
+    UserCriteriaRepository userCriteriaRepository;
+
     public UserInfo save(UserDTO user) {
         UserInfo newUser= new UserInfo();
         newUser.setId(user.getId());
         return mappingUpdate(newUser,user);
     }
 
-    @Override
-    public List<UserInfo> getAll() {
-        return userRepository.findAll();
+    public List<UserInfo> getAll(UserDTO user) {
+        return userCriteriaRepository.FindAllWithFilters(user);
     }
 
-    @Override
+
     public UserInfo getFromId(Long id) {
         return userRepository.findById(id).orElseThrow( ()-> new ResouceNotFoundException("User from database with " + id));
     }
 
-    @Override
     public UserInfo delete(Long id) {
         UserInfo user=userRepository.findById(id).orElseThrow(()-> new ResouceNotFoundException("User from database with " + id));
         userRepository.deleteById(id);
@@ -46,34 +45,32 @@ public class UserInfoService implements ServiceUser {
 
     }
 
-    @Override
+
     public UserInfo update(UserInfo userFromDb, UserDTO user) {
         UserInfo newUser= mappingUpdate(userFromDb,user);
         userRepository.save(newUser);
         return newUser;
     }
 
-    @Override
+
     public List<UserInfo> getAllUsersOfTeacher(String teacherName) {
         return userRepository.findAllByTeacherName(teacherName);
     }
 
-    @Override
     public List<UserInfo> getBestTeachers() {
         return null;
     }
 
-    @Override
+
     public List<UserInfo> getBestUsers() {
         return null;
     }
 
-    @Override
+
     public UserDTO getUserFromName(String name) {
         return mappingForDTO(userRepository.findByName(name));
     }
 
-    @Override
     public void updateUserFromName(String name) {
     }
 
