@@ -5,9 +5,7 @@ import com.example.graduation.exception.ResouceNotFoundException;
 import com.example.graduation.model.UserDTO;
 import com.example.graduation.repositories.TeacherRepository;
 import com.example.graduation.repositories.UserInfoRepository;
-import com.example.graduation.utils.UserCriteriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +32,6 @@ public class UserInfoService {
     }
 
 
-/*    public List<UserInfo> search(UserInfo filter, Long from, Integer size) {
-        Pageable pageable = new OffsetBasedPage(from, size);
-        List<UserInfo> page = userRepository.search(filter.getName(), filter.getFirstName(),
-                filter.getPatronymic(), filter.getPhoneNumber(), pageable);
-        return personMapper.toDtoList(page);
-    }*/
     public UserInfo getFromId(Long id) {
         return userRepository.findById(id).orElseThrow( ()-> new ResouceNotFoundException("User from database with " + id));
     }

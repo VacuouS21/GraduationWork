@@ -33,12 +33,7 @@ public class UserInfoController  {
         return userService.getFromId(id);
     }
 
-   /* @GetMapping("/user/search")
-    public List<UserDTO> search(UserDTO filter,
-                                @RequestParam(required = false) Long from,
-                                @RequestParam(required = false) Integer size) {
-        return userService.search(filter, from, size);
-    }*/
+
     @GetMapping("/user/name/{name}")
     UserDTO geUserFromName(@PathVariable String name){
         return userService.getUserFromName(name);
