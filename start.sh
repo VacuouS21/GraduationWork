@@ -14,4 +14,4 @@ docker-compose stop
 docker-compose up --build -d
 
 
-java -jar /target/Graduation-release.jar
+java -jar target/Graduation-release.jar
