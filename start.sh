@@ -13,5 +13,3 @@ docker-compose stop
 # Start new deployment
 docker-compose up --build -d
 
-
-java -jar target/Graduation-release.jar
