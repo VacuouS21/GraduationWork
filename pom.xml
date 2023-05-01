@@ -6,7 +6,7 @@
     <groupId>com.example</groupId>
     <artifactId>Graduation</artifactId>
     <version>release</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>Graduation Work</name>
     <description>Graduation Work</description>
 
