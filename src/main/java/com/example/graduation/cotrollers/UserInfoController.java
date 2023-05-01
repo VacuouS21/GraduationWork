@@ -3,6 +3,7 @@ package com.example.graduation.cotrollers;
 import com.example.graduation.entities.UserInfo;
 import com.example.graduation.model.UserDTO;
 import com.example.graduation.services.UserInfoService;
+import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,8 @@ public class UserInfoController  {
     }
 
     @GetMapping("/user")
-    List<UserInfo> getUsers(UserDTO userSearchCriteria){
-        return userService.getAll(userSearchCriteria);
+    List<UserInfo> getUsers(){
+        return userService.getAll();
 
     }
     @GetMapping("/user/{id}")
@@ -32,6 +33,12 @@ public class UserInfoController  {
         return userService.getFromId(id);
     }
 
+   /* @GetMapping("/user/search")
+    public List<UserDTO> search(UserDTO filter,
+                                @RequestParam(required = false) Long from,
+                                @RequestParam(required = false) Integer size) {
+        return userService.search(filter, from, size);
+    }*/
     @GetMapping("/user/name/{name}")
     UserDTO geUserFromName(@PathVariable String name){
         return userService.getUserFromName(name);
