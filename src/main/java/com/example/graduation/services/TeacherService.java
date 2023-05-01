@@ -11,32 +11,29 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TeacherService implements ServiceTeacher {
+public class TeacherService {
 
     @Autowired
     TeacherRepository repository;
     @Autowired
     UserInfoService userService;
 
-    @Override
+
     public Teacher getFromId(Long id)
     {
         return repository.findById(id).orElseThrow(
                 ()-> new ResouceNotFoundException("Teacher from database with " + id));
     }
 
-    @Override
     public List<Teacher> getAll(){
         return repository.findAll();
     }
 
-    @Override
     public Teacher save(Teacher teacher) {
         return repository.save(teacher);
 
     }
 
-    @Override
     public Teacher update(Teacher teacherFromDb,TeacherDTO teacher) {
         teacherFromDb.setLogin(teacher.getLogin());
         teacherFromDb.setName(teacher.getName());
@@ -44,7 +41,6 @@ public class TeacherService implements ServiceTeacher {
         return teacherFromDb;
     }
 
-    @Override
     public Teacher delete(Long id) {
         Teacher teacher=repository.findById(id).orElseThrow(()-> new ResouceNotFoundException("Teacher from database with " + id));
         repository.deleteById(id);

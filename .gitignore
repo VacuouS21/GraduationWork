@@ -15,6 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.mvn
 *.iws
 *.iml
 *.ipr
@@ -32,6 +33,11 @@ build/
 ### VS Code ###
 .vscode/
 
+<<<<<<< detached
 ###MY###
 *.pem
 .mvn
+=======
+###My###
+*.pem
+>>>>>>> master

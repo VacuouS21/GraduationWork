@@ -2,7 +2,8 @@ package com.example.graduation.cotrollers;
 
 import com.example.graduation.entities.UserInfo;
 import com.example.graduation.model.UserDTO;
-import com.example.graduation.services.ServiceUser;
+import com.example.graduation.services.UserInfoService;
+import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class UserInfoController  {
 
     @Autowired
-    ServiceUser userService;
+    UserInfoService userService;
 
     @PostMapping("/user")
     public UserInfo createUser(@RequestBody UserDTO user){
@@ -31,6 +32,7 @@ public class UserInfoController  {
     UserInfo getUserFromId(@PathVariable Long id){
         return userService.getFromId(id);
     }
+
 
     @GetMapping("/user/name/{name}")
     UserDTO geUserFromName(@PathVariable String name){
