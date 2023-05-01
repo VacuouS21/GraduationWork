@@ -33,5 +33,11 @@ build/
 ### VS Code ###
 .vscode/
 
+<<<<<<< detached
+###MY###
+*.pem
+.mvn
+=======
 ###My###
 *.pem
+>>>>>>> master
